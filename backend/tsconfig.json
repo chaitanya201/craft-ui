@@ -7,7 +7,9 @@
     "skipLibCheck": true,
     "moduleResolution": "Node16",
     "outDir": "build",
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "exclude": ["node_modules/"],
   "include": ["src/**/*.ts"]
