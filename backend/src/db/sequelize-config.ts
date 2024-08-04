@@ -1,14 +1,18 @@
-import { Sequelize } from "sequelize-typescript";
+import { Sequelize } from "sequelize";
 import { CURRENT_ENV } from "../config/server-config";
 
 const sequelize = new Sequelize({
-  host: "localhost",
+  database: "uicomponent",
   username: "root",
   password: "1234",
-  database: "uicomponent",
-  port: 3306,
   dialect: "mysql",
-  models: [__dirname + "/model"],
+  host: "localhost",
+  port: 3306,
+  // timezone: "+5:30",
+  // dialectOptions: {
+  //   useUTC: true,
+  //   timezone: "+5:30",
+  // },
 });
 
 // Test the connection
