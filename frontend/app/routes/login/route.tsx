@@ -9,11 +9,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { redirect } from "@remix-run/node";
+import { commitSession, getSession } from "@/lib/cookies";
 import { loginSchema } from "@/lib/schemas/auth";
+import { apiBook } from "@/lib/urls";
+import { authApiCall } from "@/services/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
-import { Link } from "@remix-run/react";
+import { Link, useFetcher } from "@remix-run/react";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -25,14 +28,25 @@ export const meta: MetaFunction = () => {
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const data = await request.formData();
+  const session = await getSession(request.headers.get("Cookie"));
+
   data.forEach((value, key) => {
-    console.log("key ", key, "  value ", value);
+    session.set(key, value);
   });
-  return {};
+  const cookie = await commitSession(session);
+  return redirect("/dashboard", {
+    headers: {
+      "Set-Cookie": cookie,
+    },
+  });
 };
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetcher = useFetcher();
+
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     mode: "all",
@@ -43,7 +57,26 @@ export default function LoginPage() {
   };
 
   const handleSubmit = async (data: z.infer<typeof loginSchema>) => {
-    console.log("Data", data);
+    try {
+      setIsLoading(true);
+      const res: any = await authApiCall({
+        method: "POST",
+        url: apiBook["LOGIN"],
+        data: data,
+      });
+      const userData = {
+        token: res.data.data.responseData.token,
+        Id: res.data.data.responseData.user.Id,
+        email: res.data.data.responseData.user.email,
+        name: res.data.data.responseData.user.name,
+      };
+      fetcher.submit(userData, {
+        method: "POST",
+      });
+    } catch (error) {
+      console.log("error ", error);
+      setIsLoading(false);
+    }
   };
   return (
     <div className="flex flex-col h-full justify-center items-center">
@@ -100,7 +133,9 @@ export default function LoginPage() {
                     </FormItem>
                   )}
                 />
-                <Button>Submit</Button>
+                <Button disabled={isLoading}>
+                  {isLoading ? "Login..." : "Login"}
+                </Button>
               </div>
             </form>
           </Form>

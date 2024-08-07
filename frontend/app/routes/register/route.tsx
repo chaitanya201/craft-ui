@@ -9,14 +9,18 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { commitSession, getSession } from "@/lib/cookies";
 import { registerSchema } from "@/lib/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
-import { Link } from "@remix-run/react";
+import { Link, useFetcher } from "@remix-run/react";
+import { redirect } from "@remix-run/node";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { authApiCall } from "@/services/auth";
+import { apiBook } from "@/lib/urls";
 
 export const meta: MetaFunction = () => {
   return [{ title: `Register` }];
@@ -24,14 +28,25 @@ export const meta: MetaFunction = () => {
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const data = await request.formData();
+  const session = await getSession(request.headers.get("Cookie"));
+
   data.forEach((value, key) => {
-    console.log("key ", key, "  value ", value);
+    session.set(key, value);
   });
-  return {};
+  const cookie = await commitSession(session);
+  return redirect("/dashboard", {
+    headers: {
+      "Set-Cookie": cookie,
+    },
+  });
 };
 
 export default function RegistrationPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetcher = useFetcher();
+
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     mode: "all",
@@ -43,6 +58,27 @@ export default function RegistrationPage() {
 
   const handleSubmit = async (data: z.infer<typeof registerSchema>) => {
     console.log("Data", data);
+    try {
+      setIsLoading(true);
+      const res: any = await authApiCall({
+        method: "POST",
+        url: apiBook["REGISTER"],
+        data: data,
+      });
+      const userData = {
+        token: res.data.data.responseData.token,
+        Id: res.data.data.responseData.user.Id,
+        email: res.data.data.responseData.user.email,
+        name: res.data.data.responseData.user.name,
+      };
+      fetcher.submit(userData, {
+        method: "POST",
+      });
+      console.log("res", res);
+    } catch (error) {
+      console.log("error ", error);
+      setIsLoading(false);
+    }
   };
   return (
     <div className="flex flex-col h-full justify-center items-center">
@@ -115,7 +151,9 @@ export default function RegistrationPage() {
                     </FormItem>
                   )}
                 />
-                <Button>Register</Button>
+                <Button disabled={isLoading}>
+                  {isLoading ? "Registering..." : "Register"}
+                </Button>
               </div>
             </form>
           </Form>
