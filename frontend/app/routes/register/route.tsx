@@ -81,11 +81,11 @@ export default function RegistrationPage() {
     }
   };
   return (
-    <div className="flex flex-col h-full justify-center items-center">
-      <Card className="min-h-80 flex flex-col justify-center max-w-md px-16 py-5 mx-auto">
-        <div className="flex flex-col justify-center gap-y-6">
+    <div className="flex flex-col h-full justify-center items-center p-5">
+      <Card className="min-h-80 flex flex-col justify-center max-w-md md:px-16 md:py-5 mx-auto">
+        <div className="flex flex-col justify-center md:gap-y-6">
           <div>
-            <h2 className="text-center font-semibold text-xl uppercase">
+            <h2 className="text-center font-semibold text-xl uppercase pb-3">
               join with us
             </h2>
           </div>

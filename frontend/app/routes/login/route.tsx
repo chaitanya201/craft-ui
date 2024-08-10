@@ -9,7 +9,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { redirect } from "@remix-run/node";
+import { LoaderFunctionArgs, redirect } from "@remix-run/node";
 import { commitSession, getSession } from "@/lib/cookies";
 import { loginSchema } from "@/lib/schemas/auth";
 import { apiBook } from "@/lib/urls";
@@ -24,6 +24,16 @@ import { z } from "zod";
 
 export const meta: MetaFunction = () => {
   return [{ title: `Login` }];
+};
+
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const session = await getSession(request.headers.get("Cookie"));
+  const token = session.get("token");
+  if (!token) {
+    return {};
+  }
+
+  return redirect("/dashboard");
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -79,11 +89,11 @@ export default function LoginPage() {
     }
   };
   return (
-    <div className="flex flex-col h-full justify-center items-center">
-      <Card className="min-h-80 flex flex-col justify-center max-w-md px-16 mx-auto">
+    <div className="flex flex-col h-full justify-center items-center px-6">
+      <Card className="min-h-80 flex flex-col justify-center max-w-md px-10 md:px-16 mx-auto">
         <div className="flex flex-col justify-center gap-y-6">
           <div>
-            <h2 className="text-center font-semibold text-xl">
+            <h2 className="text-center font-semibold text-xl pt-3">
               Welcome Back!!!
             </h2>
           </div>

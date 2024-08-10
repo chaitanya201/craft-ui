@@ -7,7 +7,7 @@ export default function Card({ children, className }: props) {
   return (
     <div
       className={cn(
-        "p-3 bg-white border border-slate-300 shadow-md w-full rounded-md",
+        "p-3 bg-white border border-slate-300 shadow-md w-full rounded-md overflow-auto max-h-screen",
         className
       )}
     >

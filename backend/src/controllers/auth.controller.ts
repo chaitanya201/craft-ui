@@ -17,6 +17,9 @@ export const loginController = catchAsync(
       where: {
         email: parsedData.email,
       },
+      attributes: {
+        exclude: ["isActive", "createdAt", "updatedAt"],
+      },
     });
     if (!isUserExists) {
       throw new APIError("User not found", 404);
@@ -30,12 +33,13 @@ export const loginController = catchAsync(
       throw new APIError("Invalid email or password", 404);
     }
 
-    const token = generateJWTToken({ data: isUserExists.dataValues });
+    const { password, ...rest } = isUserExists.dataValues;
+    const token = generateJWTToken({ data: rest });
     return res.status(200).json(
       new ApiResponse({
         data: {
           responseData: {
-            user: isUserExists,
+            user: rest,
             token,
           },
         },

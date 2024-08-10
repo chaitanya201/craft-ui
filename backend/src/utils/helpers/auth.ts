@@ -20,7 +20,7 @@ export const compareHash = ({
 };
 
 export const generateJWTToken = ({ data }: { data: any }) => {
-  const token = jwt.sign({ data }, CONFIG.JWT_SECRETE, { expiresIn: "1mins" });
+  const token = jwt.sign({ data }, CONFIG.JWT_SECRETE, { expiresIn: "59mins" });
   return token;
 };
 

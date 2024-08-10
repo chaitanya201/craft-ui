@@ -27,7 +27,7 @@ app.all("*", (req, res, next) => {
 
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  // console.log("error in final middleware ", err);
+  console.log("error in final middleware ", err);
   if (err instanceof APIError) {
     const response: apiResponse = {
       metadata: { code: err.errorCode, message: err.message },

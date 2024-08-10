@@ -4,6 +4,6 @@ import dashboardController from "../controllers/dashboard.controller";
 
 const dashboardRoutes = Router();
 
-dashboardRoutes.get("/user", authMiddleware, dashboardController);
+dashboardRoutes.get("/dashboard", authMiddleware, dashboardController);
 
 export default dashboardRoutes;
