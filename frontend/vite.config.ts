@@ -13,4 +13,5 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
+  ssr: { noExternal: ["react-live", "react-syntax-highlighter"] },
 });

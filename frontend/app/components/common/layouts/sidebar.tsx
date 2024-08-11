@@ -14,7 +14,7 @@ const sidebarLinks = [
     icon: <Shapes />,
   },
   {
-    url: "/dashboard",
+    url: "/fksl",
     name: "favorites",
     icon: <Heart />,
   },

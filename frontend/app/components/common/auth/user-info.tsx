@@ -1,8 +1,31 @@
-import { LogOut, UserRound } from "lucide-react";
+import { Heart, House, LogOut, Plus, Shapes, UserRound } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import Card from "../card/card";
 import { cn } from "@/lib/utils";
-import { Link } from "@remix-run/react";
+import { Link, useLocation } from "@remix-run/react";
+
+const sidebarLinks = [
+  {
+    url: "/dashboard",
+    name: "Home",
+    icon: <House />,
+  },
+  {
+    url: "/components/add",
+    name: "Create",
+    icon: <Plus />,
+  },
+  {
+    url: "/favorite",
+    name: "favorites",
+    icon: <Heart />,
+  },
+  {
+    url: "/logout",
+    name: "logout",
+    icon: <LogOut />,
+  },
+];
 
 export default function UserInfo({
   userSession,
@@ -11,6 +34,7 @@ export default function UserInfo({
 }) {
   const profileRef = useRef<HTMLDivElement | null>(null);
   const [showDropdown, setShowDropdown] = useState(false);
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const handleDomClick = (e: MouseEvent) => {
@@ -44,7 +68,7 @@ export default function UserInfo({
 
       <Card
         className={cn(
-          "absolute text-sm md:text-base opacity-0 transition-all duration-300 top-full -left-28 md:-left-36 w-fit md:w-52 border mt-2 flex flex-col gap-y-3 max-h-80 overflow-auto cursor-default z-50",
+          "absolute text-sm md:text-base opacity-0 transition-all duration-300 top-full -left-28 md:-left-36 w-fit md:w-52 border mt-2 p-5 flex flex-col gap-y-5 max-h-80 overflow-auto cursor-default z-50",
           showDropdown ? "opacity-100" : "pointer-events-none"
         )}
       >
@@ -57,13 +81,27 @@ export default function UserInfo({
             {userSession.name}
           </span>
         </p>
-        <Link
-          to={`/logout`}
-          className="flex gap-x-2 hover:bg-slate-200 p-3 rounded-md"
-        >
-          <LogOut />
-          <span>Logout</span>
-        </Link>
+        <ul className="flex flex-col gap-y-5">
+          {sidebarLinks.map((item) => {
+            const Icon = item.icon;
+            return (
+              <li key={item.name}>
+                <Link
+                  to={`${item.url}`}
+                  className={cn(
+                    "flex gap-x-2 items-center text-sm md:text-base p-2 w-full rounded-md",
+                    pathname.includes(item.url)
+                      ? "bg-org-primary hover:text-black"
+                      : "hover:text-org-primary hover:bg-org-primary-foreground"
+                  )}
+                >
+                  {Icon}
+                  <span>{item.name}</span>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
       </Card>
     </div>
   );

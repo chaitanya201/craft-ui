@@ -35,6 +35,7 @@ export default function AuthLayout() {
       </div>
       <div className="flex h-full ">
         <div className="hidden lg:block bg-white h-full overflow-y-auto shadow-inner">
+          <p className="text-center">Components</p>
           <SidebarLayout />
         </div>
 
