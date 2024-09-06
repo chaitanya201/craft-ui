@@ -19,8 +19,14 @@ export const compareHash = ({
   return result;
 };
 
-export const generateJWTToken = ({ data }: { data: any }) => {
-  const token = jwt.sign({ data }, CONFIG.JWT_SECRETE, { expiresIn: "59mins" });
+export const generateJWTToken = ({
+  data,
+  expiresIn = "59mins",
+}: {
+  data: string;
+  expiresIn?: string | number;
+}) => {
+  const token = jwt.sign({ data }, CONFIG.JWT_SECRETE, { expiresIn });
   return token;
 };
 

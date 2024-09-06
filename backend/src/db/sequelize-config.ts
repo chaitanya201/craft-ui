@@ -25,15 +25,17 @@ sequelize
     console.error("Unable to connect to the database:", error);
   });
 
-if (CURRENT_ENV === "development") {
-  sequelize
-    .sync({ alter: true })
-    .then(() => {
-      console.log("Ran sync on DB");
-    })
-    .catch((error) => {
-      console.log("Error while syncing DB ", error);
-    });
-}
+// uncomment when table schema changes
+
+// if (CURRENT_ENV === "development") {
+//   sequelize
+//     .sync({ alter: true })
+//     .then(() => {
+//       console.log("Ran sync on DB");
+//     })
+//     .catch((error) => {
+//       console.log("Error while syncing DB ", error);
+//     });
+// }
 
 export default sequelize;

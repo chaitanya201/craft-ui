@@ -12,6 +12,7 @@ const app = express();
 import "./db/sequelize-config";
 import { ZodError } from "zod";
 import dashboardRoutes from "./routes/dashboard";
+import { initRedis } from "./db/redis-config";
 
 app.use(cors({ origin: "*" }));
 app.use(express.urlencoded({ extended: true }));
@@ -19,6 +20,8 @@ app.use(express.json());
 
 app.use(`/auth`, authRouter);
 app.use(`/user`, dashboardRoutes);
+
+initRedis();
 
 app.all("*", (req, res, next) => {
   const msg = `${req.method} is not available for this server`;

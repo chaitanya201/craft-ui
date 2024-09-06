@@ -12,18 +12,22 @@ User.init(
       primaryKey: true,
     },
     name: {
-      type: new DataTypes.STRING({ length: 128 }),
+      type: DataTypes.STRING({ length: 128 }),
       allowNull: false,
       defaultValue: "",
     },
     email: {
-      type: new DataTypes.STRING({ length: 128 }),
+      type: DataTypes.STRING({ length: 128 }),
       allowNull: false,
       unique: true,
     },
     password: {
-      type: new DataTypes.STRING({ length: 128 }),
+      type: DataTypes.STRING({ length: 128 }),
       allowNull: false,
+    },
+    sessionId: {
+      type: DataTypes.STRING(),
+      unique: true,
     },
     isActive: {
       type: DataTypes.INTEGER,

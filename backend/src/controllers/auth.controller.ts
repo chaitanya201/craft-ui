@@ -10,6 +10,8 @@ import {
   generateJWTToken,
 } from "../utils/helpers/auth";
 
+import { v4 as uuidv4 } from "uuid";
+
 export const loginController = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const parsedData = loginSchema.parse(req.body);
@@ -34,7 +36,10 @@ export const loginController = catchAsync(
     }
 
     const { password, ...rest } = isUserExists.dataValues;
-    const token = generateJWTToken({ data: rest });
+    const sessionId = uuidv4();
+    const token = generateJWTToken({ data: sessionId });
+    isUserExists.set("sessionId", sessionId);
+    await isUserExists.save();
     return res.status(200).json(
       new ApiResponse({
         data: {
@@ -53,14 +58,21 @@ export const registerController = catchAsync(
     const parsedBody = registerSchema.parse(req.body);
 
     const hashedPassword = generateHash(parsedBody.password);
+    const sessionId = uuidv4();
     const createdUser = await User.create({
       name: parsedBody.name,
       email: parsedBody.email,
       password: hashedPassword,
+      sessionId,
     });
+    const token = generateJWTToken({ data: sessionId });
 
     return res
       .status(200)
-      .json(new ApiResponse({ data: { responseData: createdUser } }));
+      .json(
+        new ApiResponse({
+          data: { responseData: { ...createdUser.dataValues, token } },
+        })
+      );
   }
 );
