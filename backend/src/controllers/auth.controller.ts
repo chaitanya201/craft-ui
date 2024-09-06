@@ -8,9 +8,11 @@ import {
   compareHash,
   generateHash,
   generateJWTToken,
+  verifyUser,
 } from "../utils/helpers/auth";
 
 import { v4 as uuidv4 } from "uuid";
+import { getRedisClient } from "../db/redis-config";
 
 export const loginController = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -37,9 +39,12 @@ export const loginController = catchAsync(
 
     const { password, ...rest } = isUserExists.dataValues;
     const sessionId = uuidv4();
-    const token = generateJWTToken({ data: sessionId });
+
+    const token = generateJWTToken({ data: sessionId, expiresIn: "59min" });
     isUserExists.set("sessionId", sessionId);
     await isUserExists.save();
+    const redisClient = getRedisClient();
+    redisClient.set(sessionId, JSON.stringify(rest));
     return res.status(200).json(
       new ApiResponse({
         data: {
@@ -67,12 +72,22 @@ export const registerController = catchAsync(
     });
     const token = generateJWTToken({ data: sessionId });
 
-    return res
-      .status(200)
-      .json(
-        new ApiResponse({
-          data: { responseData: { ...createdUser.dataValues, token } },
-        })
-      );
+    return res.status(200).json(
+      new ApiResponse({
+        data: { responseData: { ...createdUser.dataValues, token } },
+      })
+    );
+  }
+);
+
+export const logoutController = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = verifyUser(req);
+    const redisClient = getRedisClient();
+    await redisClient.del(user.sessionId);
+
+    return res.json(
+      new ApiResponse({ metadata: { code: 200, message: "Logout successful" } })
+    );
   }
 );

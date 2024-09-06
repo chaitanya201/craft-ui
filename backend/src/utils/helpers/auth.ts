@@ -1,6 +1,8 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { CONFIG } from "../../config/server-config";
+import { APIError } from "../apiError";
+import { Request } from "express";
 
 export const generateHash = (val: string) => {
   const salt = bcrypt.genSaltSync();
@@ -33,4 +35,13 @@ export const generateJWTToken = ({
 export const verifyJWTToken = ({ token }: { token: string }) => {
   const data = jwt.verify(token, CONFIG.JWT_SECRETE);
   return data;
+};
+
+export const verifyUser = (req: Request) => {
+  const user = req.headers["userInfo"];
+  if (!user || user instanceof Array) {
+    throw new APIError("Invalid user", 403);
+  }
+  const parsedUser = JSON.parse(user);
+  return parsedUser;
 };
