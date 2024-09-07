@@ -11,10 +11,14 @@ const urls = {
   development: {
     LOGIN: `${baseURLs[currentEnvironment]}/auth/login`,
     REGISTER: `${baseURLs[currentEnvironment]}/auth/register`,
+    ADD_COMPONENT: `${baseURLs[currentEnvironment]}/component/add`,
+    GET_ALL_COMP: `${baseURLs[currentEnvironment]}/component/all`,
   },
   production: {
     LOGIN: `${baseURLs[currentEnvironment]}/auth/login`,
     REGISTER: `${baseURLs[currentEnvironment]}/auth/register`,
+    ADD_COMPONENT: `${baseURLs[currentEnvironment]}/component/add`,
+    GET_ALL_COMP: `${baseURLs[currentEnvironment]}/component/all`,
   },
 };
 

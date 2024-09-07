@@ -15,6 +15,9 @@ import ReactSyntaxHighlighter from "@/components/editor/syntax-highlight";
 import { FloatingInput } from "@/components/common/form-elements/floating-input";
 import { FloatingTextarea } from "@/components/common/form-elements/floating-textarea";
 import { Button } from "@/components/ui/button";
+import { createComponent } from "@/services/components";
+import useFormatCode from "@/utils/hooks/format-code";
+import { useOutletContext } from "@remix-run/react";
 const CodePreview = lazy(
   () => import("@/components/editor/live-preview.client")
 );
@@ -26,6 +29,7 @@ export const componentSchema = z.object({
 });
 
 export default function AddComponent() {
+  const auth = useOutletContext();
   const form = useForm<z.infer<typeof componentSchema>>({
     resolver: zodResolver(componentSchema),
     mode: "all",
@@ -38,7 +42,17 @@ export default function AddComponent() {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof componentSchema>) => {};
+  const { code } = useFormatCode({ code: form.getValues("code") });
+  const onSubmit = async (data: z.infer<typeof componentSchema>) => {
+    try {
+      const res = await createComponent({
+        auth,
+        data: { ...data, formattedCode: code || "" },
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
 
   return (
     <div>

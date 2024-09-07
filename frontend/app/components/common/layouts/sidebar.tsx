@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "@remix-run/react";
-import { FolderOpenDot, Heart, House, Shapes } from "lucide-react";
+import { Code, FolderOpenDot, Heart, House, Shapes } from "lucide-react";
 
 const sidebarLinks = [
   {
@@ -17,6 +17,11 @@ const sidebarLinks = [
     url: "/fksl",
     name: "favorites",
     icon: <Heart />,
+  },
+  {
+    url: "/components/view",
+    name: "Components",
+    icon: <Code />,
   },
 ];
 export default function SidebarLayout() {

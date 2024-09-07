@@ -1,4 +1,5 @@
 import axios, { AxiosError } from "axios";
+import { handleApiError } from "./apiCall";
 
 interface apiProps {
   headers?: Record<string, string>;
@@ -20,15 +21,5 @@ export const authApiCall = async (props: apiProps) => {
     return res;
   } catch (error) {
     handleApiError(error);
-  }
-};
-
-const handleApiError = (error: unknown) => {
-  if (error instanceof AxiosError) {
-    throw new Error(error.message);
-  } else if (error instanceof Error) {
-    throw new Error(error.message);
-  } else {
-    throw new Error("Something went wrong.");
   }
 };

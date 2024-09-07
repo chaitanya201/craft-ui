@@ -10,10 +10,12 @@ interface apiProps {
 
 export const apiCall = async (props: apiProps) => {
   try {
+    const { auth, ...rest } = props;
     const payload = {
+      ...rest,
       headers: {
         "Content-type": "application/json",
-        "x-auth-token": "",
+        "x-auth-token": auth.token,
         ...props.headers,
       },
     };
@@ -24,8 +26,13 @@ export const apiCall = async (props: apiProps) => {
   }
 };
 
-const handleApiError = (error: unknown) => {
+export const handleApiError = (error: unknown) => {
+  console.log("error", error);
   if (error instanceof AxiosError) {
+    if (error?.response?.status === 401) {
+      window.location.href = "/logout";
+      throw new Error(error.response?.data?.data?.message);
+    }
     throw new Error(error.message);
   } else if (error instanceof Error) {
     throw new Error(error.message);

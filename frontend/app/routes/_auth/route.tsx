@@ -51,7 +51,7 @@ export default function AuthLayout() {
           />
         </div>
         <div className="flex-1 overflow-y-auto p-4">
-          <Outlet />
+          <Outlet context={userSession} />
         </div>
       </div>
     </div>

@@ -13,6 +13,7 @@ import "./db/sequelize-config";
 import { ZodError } from "zod";
 import dashboardRoutes from "./routes/dashboard";
 import { initRedis } from "./db/redis-config";
+import componentRouter from "./routes/component";
 
 app.use(cors({ origin: "*" }));
 app.use(express.urlencoded({ extended: true }));
@@ -20,6 +21,7 @@ app.use(express.json());
 
 app.use(`/auth`, authRouter);
 app.use(`/user`, dashboardRoutes);
+app.use(`/component`, componentRouter);
 
 initRedis();
 
@@ -38,8 +40,8 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     };
     res.status(err.errorCode).json(response);
   } else if (err instanceof TokenExpiredError) {
-    res.status(500).json({
-      metadata: { code: 500, message: "Session Expired. Login Again" },
+    res.status(401).json({
+      metadata: { code: 401, message: "Session Expired. Login Again" },
       data: { message: "Session Expired", responseData: null },
     });
   } else if (err instanceof JsonWebTokenError) {

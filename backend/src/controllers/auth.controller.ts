@@ -1,7 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import { catchAsync } from "../utils/catchAsync";
 import { APIError } from "../utils/apiError";
-import User from "../db/model/user.model";
 import { ApiResponse } from "../utils/apiResponse";
 import { loginSchema, registerSchema } from "../utils/validations/auth";
 import {
@@ -10,7 +9,7 @@ import {
   generateJWTToken,
   verifyUser,
 } from "../utils/helpers/auth";
-
+import { User } from "../db/model";
 import { v4 as uuidv4 } from "uuid";
 import { getRedisClient } from "../db/redis-config";
 
