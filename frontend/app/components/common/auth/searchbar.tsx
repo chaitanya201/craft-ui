@@ -1,24 +1,94 @@
-import { Search } from "lucide-react";
-import React, { useState } from "react";
+import { Car, Search } from "lucide-react";
+import React, { MouseEvent, Ref, useEffect, useRef, useState } from "react";
 import SlidingInput from "../form-elements/sliding-input";
 import Card from "../card/card";
 import { cn } from "@/lib/utils";
+import { searchComponent } from "@/services/components";
+import { Link } from "@remix-run/react";
+// Define the User type
+interface User {
+  Id: number;
+  name: string;
+  email: string;
+}
 
-export default function SearchBarComponent() {
+// Define the Component type
+interface Component {
+  Id: number;
+  name: string;
+  description: string;
+  code: string;
+  formattedCode: string;
+  userId: number;
+  isActive: boolean;
+  createdAt: string; // Alternatively, use Date if you work with Date objects
+  updatedAt: string; // Alternatively, use Date if you work with Date objects
+}
+
+export default function SearchBarComponent({
+  userSession,
+}: {
+  userSession: { token: string; Id: string; email: string; name: string };
+}) {
   const [searchText, setSearchText] = useState("");
+  const [componentList, setComponentList] = useState<Component[]>([]);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const getData = async () => {
+      const res = await searchComponent({
+        auth: userSession,
+        searchText,
+      });
+      setComponentList(res?.data?.data?.responseData);
+    };
+    if (searchText.trim().length) {
+      getData();
+    }
+  }, [searchText]);
+
+  useEffect(() => {
+    //e:MouseEvent
+    const handleClick = (e: any) => {
+      setSearchText("");
+      setComponentList([]);
+    };
+    document.addEventListener("click", handleClick);
+
+    return () => {
+      document.removeEventListener("click", handleClick);
+    };
+  }, []);
+
   return (
     <div className="relative">
       <SlidingInput
+        // onBlur={() => {
+        //   setSearchText("");
+        //   setComponentList([]);
+        // }}
         value={searchText}
         onChange={(e) => {
           setSearchText(e.target.value);
         }}
         slidingLabel={<SearchBar />}
         className={cn(
-          "focus-visible:w-96 focus-visible:transition-all focus-visible:duration-200 transition-all duration-300"
+          "focus-visible:w-96 focus-visible:transition-all focus-visible:duration-200 transition-all duration-300",
+          searchText && "w-96"
         )}
       />
-      <div className="absolute">{/* <Dropdown /> */}</div>
+      {
+        <div
+          className={cn(
+            "absolute transition-all duration-300 opacity-100",
+            componentList.length == 0 && "opacity-0"
+          )}
+        >
+          <div ref={dropdownRef}>
+            <Dropdown componentList={componentList} />
+          </div>
+        </div>
+      }
     </div>
   );
 }
@@ -32,33 +102,25 @@ function SearchBar() {
   );
 }
 
-function Dropdown() {
+function Dropdown({ componentList }: { componentList: Component[] }) {
+  if (componentList.length == 0) {
+    return <Card>No data found</Card>;
+  }
   return (
     <Card className="">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis, debitis
-      corporis accusamus sunt vel quas illum, dolorum odio alias voluptas, earum
-      veniam nesciunt. Soluta, ipsum placeat dolores a sint cumque? Nam magni
-      cupiditate aliquid. Beatae, tempora! Vel animi quaerat ullam non
-      perferendis iure nam quibusdam labore soluta officiis, atque itaque
-      delectus deserunt repellat, quo id reiciendis accusamus cupiditate? Unde,
-      quam. Voluptatem quos iste vitae magnam provident fuga explicabo eum
-      voluptatibus, ab aperiam non iusto ex veniam reprehenderit eveniet officia
-      corrupti libero placeat unde sequi fugit harum porro. Necessitatibus, sed
-      deserunt. Obcaecati accusamus cumque facere, exercitationem excepturi
-      dicta minus quidem atque laborum odio ipsum et tenetur dolore ipsa id in,
-      eius consequatur illum neque asperiores saepe voluptates. Quisquam fuga
-      necessitatibus a? Impedit autem itaque, commodi dolor consectetur officia
-      reprehenderit recusandae. Expedita quidem sunt alias deserunt sed natus
-      error. Fuga, vitae. Sequi pariatur ex nobis cum reiciendis quo odit
-      commodi dolorem aliquam? Deleniti esse aliquid quos reprehenderit eius
-      reiciendis voluptatem nihil eum excepturi dolores? Earum, rem quos dolorum
-      cupiditate rerum cumque dolores, mollitia id ratione quo qui illo
-      recusandae aperiam voluptas quidem. reprehenderit recusandae. Expedita
-      quidem sunt alias deserunt sed natus error. Fuga, vitae. Sequi pariatur ex
-      nobis cum reiciendis quo odit commodi dolorem aliquam? Deleniti esse
-      aliquid quos reprehenderit eius reiciendis voluptatem nihil eum excepturi
-      dolores? Earum, rem quos dolorum cupiditate rerum cumque dolores, mollitia
-      id ratione quo qui illo recusandae aperiam voluptas quidem.
+      {componentList.map((comp) => {
+        return (
+          <Link
+            key={`component-${comp.name}-${comp.Id}`}
+            onClick={() => {
+              console.log("clicked...");
+            }}
+            to={`/components/view/${comp.Id}`}
+          >
+            <p>{comp.name}</p>
+          </Link>
+        );
+      })}
     </Card>
   );
 }

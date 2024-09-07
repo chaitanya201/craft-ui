@@ -34,7 +34,7 @@ export default function Navbar({
         </p>
       </div>
       <div className="hidden md:block">
-        <SearchBar />
+        <SearchBar userSession={userSession} />
       </div>
       <div className="">
         <UserInfo userSession={userSession} />

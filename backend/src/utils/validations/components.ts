@@ -13,8 +13,11 @@ export const addComponentSchema = z.object({
     .string()
     .min(1, "Code is required")
     .max(1000, "Code can not be greater than 1000 chars"),
-  formattedCode: z
+});
+
+export const searchComponentSchema = z.object({
+  searchText: z
     .string()
-    .min(4, "formatted code is required")
-    .max(1300, "Formatted code can not be greater than 1300 chars"),
+    .max(100, "Too large value")
+    .regex(/^[a-zA-Z]+$/, "Invalid search text"),
 });

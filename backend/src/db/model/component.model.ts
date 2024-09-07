@@ -14,7 +14,6 @@ Component.init(
     name: { type: DataTypes.STRING(100), allowNull: false, unique: true },
     description: { type: DataTypes.STRING(500), allowNull: false },
     code: { type: DataTypes.STRING(1000), allowNull: false },
-    formattedCode: { type: DataTypes.STRING(1300), allowNull: false },
     userId: { type: DataTypes.INTEGER, allowNull: false },
     isActive: { type: DataTypes.BOOLEAN(), defaultValue: true },
   },

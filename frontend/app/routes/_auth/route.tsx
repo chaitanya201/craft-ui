@@ -23,10 +23,10 @@ export default function AuthLayout() {
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
   const userSession = useLoaderData<typeof loader>();
   const navbarRef = useRef<HTMLDivElement | null>(null);
-  console.log({ showMobileSidebar });
+  // console.log({ showMobileSidebar });
 
   return (
-    <div className="h-screen max-w-7xl w-full mx-auto bg-slate-100 overflow-hidden">
+    <div className="h-screen max-w-7xl w-full mx-auto overflow-hidden">
       <div ref={navbarRef}>
         <Navbar
           setShowMobileSidebar={setShowMobileSidebar}

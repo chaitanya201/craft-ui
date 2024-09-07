@@ -42,17 +42,19 @@ export default function AddComponent() {
     },
   });
 
-  const { code } = useFormatCode({ code: form.getValues("code") });
+  const { code } = useFormatCode({ code: form.watch("code") });
   const onSubmit = async (data: z.infer<typeof componentSchema>) => {
     try {
       const res = await createComponent({
         auth,
-        data: { ...data, formattedCode: code || "" },
+        data: { ...data, code: code || "" },
       });
     } catch (error) {
       console.log("error", error);
     }
   };
+
+  console.log("formtedcode", code);
 
   return (
     <div>
