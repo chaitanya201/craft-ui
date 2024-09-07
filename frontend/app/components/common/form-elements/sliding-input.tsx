@@ -11,14 +11,13 @@ export default function SlidingInput({ slidingLabel, ...props }: Props) {
       <input
         {...props}
         className={cn(
-          "w-80 bg-slate-200 p-1.5 rounded-md peer ",
+          "w-28 bg-slate-200 p-1.5 rounded-md peer focus-visible:outline-none px-4",
           props.className
         )}
       />
       <label
         className={cn(
-          "absolute top-1.5 left-1/3",
-          props.value && "hidden left-2 text-slate-600"
+          "absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 peer-focus-visible:hidden pointer-events-none"
         )}
       >
         {slidingLabel}

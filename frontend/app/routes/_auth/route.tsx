@@ -26,14 +26,14 @@ export default function AuthLayout() {
   console.log({ showMobileSidebar });
 
   return (
-    <div className="h-screen w-full bg-slate-100 overflow-hidden">
+    <div className="h-screen max-w-7xl w-full mx-auto bg-slate-100 overflow-hidden">
       <div ref={navbarRef}>
         <Navbar
           setShowMobileSidebar={setShowMobileSidebar}
           userSession={userSession}
         />
       </div>
-      <div className="flex h-full ">
+      <div className="flex h-full">
         <div className="hidden lg:block bg-white h-full overflow-y-auto shadow-inner">
           <p className="text-center">Components</p>
           <SidebarLayout />
@@ -50,7 +50,7 @@ export default function AuthLayout() {
             setShowMobileSidebar={setShowMobileSidebar}
           />
         </div>
-        <div className="flex-grow overflow-y-auto p-4">
+        <div className="flex-1 overflow-y-auto p-4">
           <Outlet />
         </div>
       </div>

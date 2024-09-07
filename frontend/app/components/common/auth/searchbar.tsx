@@ -14,7 +14,9 @@ export default function SearchBarComponent() {
           setSearchText(e.target.value);
         }}
         slidingLabel={<SearchBar />}
-        className={cn(searchText && "w-96 transition-all duration-200")}
+        className={cn(
+          "focus-visible:w-96 focus-visible:transition-all focus-visible:duration-200 transition-all duration-300"
+        )}
       />
       <div className="absolute">{/* <Dropdown /> */}</div>
     </div>
