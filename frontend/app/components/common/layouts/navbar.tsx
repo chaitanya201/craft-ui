@@ -11,11 +11,11 @@ export default function Navbar({
   setShowMobileSidebar: Dispatch<SetStateAction<boolean>>;
 }) {
   return (
-    <div className="h-20 bg-white shadow-md sticky top-0 flex justify-between items-center px-3 md:px-10">
+    <div className="h-20 bg-white shadow-md sticky top-0 flex justify-between items-center px-3">
       <div className="flex gap-x-3 items-center">
         <div className="">
           <Link className="hidden lg:block" to={"/login"}>
-            <img src="/logo.jpg" alt="logo" className="w-20 h-20" />
+            <img src="/logo.png" alt="logo" className="w-16 h-16" />
           </Link>
           <button
             className="lg:hidden"
@@ -26,7 +26,7 @@ export default function Navbar({
               });
             }}
           >
-            <img src="/logo.jpg" alt="logo" className="w-20 h-20" />
+            <img src="/logo.png" alt="logo" className="w-12 h-12" />
           </button>
         </div>
         <p className="hidden md:block uppercase font-semibold text-xl">

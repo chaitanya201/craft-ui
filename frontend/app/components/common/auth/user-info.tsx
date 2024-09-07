@@ -68,7 +68,7 @@ export default function UserInfo({
 
       <Card
         className={cn(
-          "absolute text-sm md:text-base opacity-0 transition-all duration-300 top-full -left-28 md:-left-36 w-fit md:w-52 border mt-2 p-5 flex flex-col gap-y-5 max-h-80 overflow-auto cursor-default z-50",
+          "absolute text-sm md:text-base opacity-0 transition-all duration-300 top-full -left-32 md:-left-40 w-fit md:w-52 border mt-2 p-5 flex flex-col gap-y-5 max-h-80 overflow-auto cursor-default z-50",
           showDropdown ? "opacity-100" : "pointer-events-none"
         )}
       >

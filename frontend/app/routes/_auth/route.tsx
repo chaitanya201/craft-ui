@@ -26,7 +26,7 @@ export default function AuthLayout() {
   // console.log({ showMobileSidebar });
 
   return (
-    <div className="h-screen max-w-7xl w-full mx-auto overflow-hidden">
+    <div className="h-screen max-w-screen-2xl w-full mx-auto overflow-hidden">
       <div ref={navbarRef}>
         <Navbar
           setShowMobileSidebar={setShowMobileSidebar}
@@ -50,7 +50,7 @@ export default function AuthLayout() {
             setShowMobileSidebar={setShowMobileSidebar}
           />
         </div>
-        <div className="flex-1 overflow-y-auto p-4">
+        <div className="flex-grow overflow-y-auto p-4">
           <Outlet context={userSession} />
         </div>
       </div>

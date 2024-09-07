@@ -83,7 +83,7 @@ export default function AddComponent() {
                   <FormControl>
                     <FloatingTextarea
                       label="Description"
-                      className="border w-full resize-none border-gray-300 p-2 rounded"
+                      className="border w-full resize-none h-20 border-gray-300 p-2 rounded"
                       {...field}
                       value={field.value}
                       onChange={(e) => field.onChange(e.target.value)}
@@ -98,17 +98,10 @@ export default function AddComponent() {
               control={form.control}
               name="code"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="space-y-3">
                   <FormLabel>Code</FormLabel>
                   <FormControl>
                     <div className="flex flex-col gap-4">
-                      {/* <textarea
-                      rows={10}
-                      className="border border-gray-300 p-2 rounded"
-                      value={field.value}
-                      onChange={(e) => field.onChange(e.target.value)}
-                    /> */}
-
                       <Suspense fallback={<div>Loding..........</div>}>
                         <CodePreview
                           setValue={form.setValue}

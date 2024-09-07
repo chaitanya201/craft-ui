@@ -159,7 +159,7 @@ export function TabsContent({ children, className, value }: TabsContentProps) {
       const result = pre.map((item) => {
         item.content =
           item.tab === value ? (
-            <div className={cn("pt-4", className)}>{children}</div>
+            <div className={cn("pt-2", className)}>{children}</div>
           ) : (
             item.content
           );
@@ -175,14 +175,14 @@ export function TabsContent({ children, className, value }: TabsContentProps) {
   const currentDefaultTab = tabsList.filter((item) => {
     return item.isDefault && item.tab === value;
   });
-  console.log(
-    "currentSelectedTab",
-    currentSelectedTab,
-    "value",
-    value,
-    " default",
-    defaultTab
-  );
+  //   console.log(
+  //     "currentSelectedTab",
+  //     currentSelectedTab,
+  //     "value",
+  //     value,
+  //     " default",
+  //     defaultTab
+  //   );
   if (currentSelectedTab.length > 0) {
     return (
       <div className={cn("", className)}>{currentSelectedTab?.[0].content}</div>

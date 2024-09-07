@@ -45,7 +45,7 @@ export default function ShowAllComponents() {
     })();
   }, []);
   return (
-    <div>
+    <div className="flex flex-col gap-y-3">
       <ul className="flex gap-x-3 overflow-x-auto">
         {components.map((comp, idx) => {
           return (

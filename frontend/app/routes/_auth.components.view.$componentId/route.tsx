@@ -52,11 +52,13 @@ export default function ShowSingleComponentPage() {
     return <div>No Component found</div>;
   }
   return (
-    <div>
-      <h3 className="text-2xl capitalize font-semibold text-org-primary">
-        {component.name}
-      </h3>
-      <p className="text-slate-500">{component.description}</p>
+    <div className="flex flex-col gap-y-8">
+      <div className="flex flex-col ">
+        <h3 className="text-3xl capitalize font-bold text-org-primary">
+          {component.name}
+        </h3>
+        <p className="text-slate-500">{component.description}</p>
+      </div>
       <Tabs key={params?.componentId} defaultTab="preview">
         <TabsList>
           <TabsTrigger value="preview">Preview</TabsTrigger>
