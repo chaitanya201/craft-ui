@@ -33,7 +33,7 @@ export default function AuthLayout() {
           userSession={userSession}
         />
       </div>
-      <div className="flex h-full">
+      <div className="flex h-full overflow-hidden">
         <div className="hidden lg:block bg-white h-full overflow-y-auto shadow-inner">
           <p className="text-center">Components</p>
           <SidebarLayout />
@@ -50,8 +50,10 @@ export default function AuthLayout() {
             setShowMobileSidebar={setShowMobileSidebar}
           />
         </div>
-        <div className="flex-grow overflow-y-auto p-4">
-          <Outlet context={userSession} />
+        <div className="flex-grow h-full pt-20">
+          <div className="overflow-y-auto h-full p-4">
+            <Outlet context={userSession} />
+          </div>
         </div>
       </div>
     </div>

@@ -11,7 +11,7 @@ export default function Navbar({
   setShowMobileSidebar: Dispatch<SetStateAction<boolean>>;
 }) {
   return (
-    <div className="h-20 bg-white shadow-md sticky top-0 flex justify-between items-center px-3">
+    <div className="h-20 bg-white shadow-md fixed top-0 flex justify-between items-center w-full px-3">
       <div className="flex gap-x-3 items-center">
         <div className="">
           <Link className="hidden lg:block" to={"/login"}>

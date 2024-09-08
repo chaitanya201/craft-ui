@@ -68,7 +68,7 @@ export default function AddComponent() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <FloatingInput label="Name" {...field} />
+                    <FloatingInput label="Name" className="z-0" {...field} />
                   </FormControl>
 
                   <FormMessage />
