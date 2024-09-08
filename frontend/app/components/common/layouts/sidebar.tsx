@@ -28,8 +28,8 @@ export default function SidebarLayout() {
   const location = useLocation();
   const { pathname } = location;
   return (
-    <div className="sticky top-16 pt-4">
-      <ul className="flex flex-col gap-y-5 w-80 p-3">
+    <div className="sticky top-16 pt-4 min-w-80">
+      <ul className="flex flex-col gap-y-5 p-3">
         {sidebarLinks.map((item) => {
           const Icon = item.icon;
           return (

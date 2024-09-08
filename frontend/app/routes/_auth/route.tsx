@@ -33,7 +33,7 @@ export default function AuthLayout() {
           userSession={userSession}
         />
       </div>
-      <div className="flex h-full overflow-hidden">
+      <div className="flex h-full overflow-hidden pt-20">
         <div className="hidden lg:block bg-white h-full overflow-y-auto shadow-inner">
           <p className="text-center">Components</p>
           <SidebarLayout />
@@ -41,8 +41,8 @@ export default function AuthLayout() {
 
         <div
           className={cn(
-            "transition-all  duration-300 relative",
-            showMobileSidebar ? "opacity-100" : "opacity-0 -z-10"
+            "transition-all duration-300 relative mt-20",
+            showMobileSidebar ? "opacity-100 z-10" : "opacity-0 -z-10"
           )}
         >
           <MobileSidebar
@@ -50,7 +50,7 @@ export default function AuthLayout() {
             setShowMobileSidebar={setShowMobileSidebar}
           />
         </div>
-        <div className="flex-grow h-full pt-20">
+        <div className="flex-grow h-full w-[100vh] xl:max-w-[79vw]">
           <div className="overflow-y-auto h-full p-4">
             <Outlet context={userSession} />
           </div>
