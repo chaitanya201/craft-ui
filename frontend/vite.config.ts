@@ -14,4 +14,12 @@ export default defineConfig({
     tsconfigPaths(),
   ],
   ssr: { noExternal: ["react-live", "react-syntax-highlighter"] },
+  // server: {
+  //   watch: {
+  //     usePolling: true,
+  //     interval: 100,
+  //     binaryInterval: 100,
+
+  //   },
+  // },
 });

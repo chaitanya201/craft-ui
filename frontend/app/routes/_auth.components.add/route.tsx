@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useEffect } from "react";
 import { z } from "zod";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { createComponent } from "@/services/components";
 import useFormatCode from "@/utils/hooks/format-code";
 import { useOutletContext } from "@remix-run/react";
+import Usage from "./usage";
 const CodePreview = lazy(
   () => import("@/components/editor/live-preview.client")
 );
@@ -26,24 +27,30 @@ export const componentSchema = z.object({
   name: z.string().min(4, "Name must be at least 4 chars"),
   description: z.string().min(4, "Description must be at least 4 chars"),
   code: z.string().min(1, "Code is required"),
+  usage: z.array(z.string()).optional(),
 });
-
+export type TaddSchema = z.infer<typeof componentSchema>;
 export default function AddComponent() {
   const auth = useOutletContext();
-  const form = useForm<z.infer<typeof componentSchema>>({
+  const form = useForm<TaddSchema>({
     resolver: zodResolver(componentSchema),
     mode: "all",
     defaultValues: {
       code: `
-      <div className="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-md space-y-96">
-<h2 className="text-5xl font-bold text-gray-900">Hello Tailwind!</h2>
-        <p className="text-pink-600">Edit this code and see live updates.</p>
-      </div>`,
+        <div className="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-md">
+          hi
+        </div>`,
+      usage: [],
     },
   });
 
+  const {} = useFieldArray({
+    control: form.control,
+    name: "usage",
+  });
+
   const { code } = useFormatCode({ code: form.watch("code") });
-  const onSubmit = async (data: z.infer<typeof componentSchema>) => {
+  const onSubmit = async (data: TaddSchema) => {
     try {
       const res = await createComponent({
         auth,
@@ -117,6 +124,28 @@ export default function AddComponent() {
             />
 
             <ReactSyntaxHighlighter code={form.getValues("code")} />
+            <Suspense fallback={<div>Loading...</div>}>
+              <FormField
+                control={form.control}
+                name="usage"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <FloatingTextarea
+                        label="Description"
+                        className="border w-full resize-none h-20 border-gray-300 p-2 rounded"
+                        {...field}
+                        value={field.value}
+                        onChange={(e) => field.onChange(e.target.value)}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Usage form={form} />
+            </Suspense>
             <Button className="absolute bottom-10 right-40">Submit</Button>
           </div>
         </form>
