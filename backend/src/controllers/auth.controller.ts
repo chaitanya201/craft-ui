@@ -43,7 +43,7 @@ export const loginController = catchAsync(
     isUserExists.set("sessionId", sessionId);
     await isUserExists.save();
     const redisClient = getRedisClient();
-    redisClient.set(sessionId, JSON.stringify(rest));
+    await redisClient.set(sessionId, JSON.stringify(rest));
     return res.status(200).json(
       new ApiResponse({
         data: {
