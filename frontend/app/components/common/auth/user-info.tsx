@@ -15,11 +15,7 @@ const sidebarLinks = [
     name: "Create",
     icon: <Plus />,
   },
-  {
-    url: "/favorite",
-    name: "favorites",
-    icon: <Heart />,
-  },
+
   {
     url: "/logout",
     name: "logout",

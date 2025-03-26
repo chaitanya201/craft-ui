@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { cn } from "@/lib/utils";
 import { Link } from "@remix-run/react";
-import { FolderOpenDot, Heart, House, Shapes } from "lucide-react";
+import { FolderOpenDot, Heart, House, Plus, Shapes } from "lucide-react";
 
 const sidebarLinks = [
   {
@@ -15,15 +15,11 @@ const sidebarLinks = [
     name: "Home",
     icon: <House />,
   },
+
   {
-    url: "/projects",
-    name: "projects",
-    icon: <Shapes />,
-  },
-  {
-    url: "/dashboard",
-    name: "favorites",
-    icon: <Heart />,
+    url: "/components/add",
+    name: "Create",
+    icon: <Plus />,
   },
 ];
 
@@ -55,7 +51,7 @@ const MobileSidebar = forwardRef<HTMLDivElement, MobileSidebarProps>(
     return (
       <div
         className={cn(
-          "lg:hidden absolute -top-20 w-60 md:w-96 h-full overflow-y-auto bg-white shadow-md m-3 mt-0 transition-all duration-300 p-5 flex flex-col gap-y-4"
+          "lg:hidden absolute -top-20 w-60 md:w-96 h-[85vh] overflow-y-auto bg-white shadow-md m-3 mt-0 transition-all duration-300 p-5 flex flex-col gap-y-4"
         )}
       >
         <h2 className="uppercase font-semibold ">Component Hub</h2>

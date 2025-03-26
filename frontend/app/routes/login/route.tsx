@@ -21,6 +21,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { toast } from "sonner";
 
 export const meta: MetaFunction = () => {
   return [{ title: `Login` }];
@@ -83,7 +84,12 @@ export default function LoginPage() {
       fetcher.submit(userData, {
         method: "POST",
       });
-    } catch (error) {
+    } catch (error: any) {
+      toast.error(
+        error?.message ||
+          error?.response?.data?.metadata?.message ||
+          "An error occurred"
+      );
       console.log("error ", error);
       setIsLoading(false);
     }

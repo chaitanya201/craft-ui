@@ -33,10 +33,9 @@ export default function AuthLayout() {
           userSession={userSession}
         />
       </div>
-      <div className="flex h-full overflow-hidden pt-20">
+      <div className="flex h-full overflow-hidden z-10 pt-20">
         <div className="hidden lg:block bg-white h-full overflow-y-auto shadow-inner">
-          <p className="text-center">Components</p>
-          <SidebarLayout />
+          <SidebarLayout userSession={userSession} />
         </div>
 
         <div

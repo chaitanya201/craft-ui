@@ -75,7 +75,12 @@ export default function RegistrationPage() {
         method: "POST",
       });
       console.log("res", res);
-    } catch (error) {
+    } catch (error: any) {
+      toast.error(
+        error?.message ||
+          error?.response?.data?.metadata?.message ||
+          "An error occurred"
+      );
       console.log("error ", error);
       setIsLoading(false);
     }

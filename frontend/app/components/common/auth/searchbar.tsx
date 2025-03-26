@@ -77,18 +77,16 @@ export default function SearchBarComponent({
           searchText && "w-96"
         )}
       />
-      {
-        <div
-          className={cn(
-            "absolute transition-all duration-300 opacity-100",
-            componentList.length == 0 && "opacity-0"
-          )}
-        >
-          <div ref={dropdownRef}>
-            <Dropdown componentList={componentList} />
-          </div>
+      <div
+        className={cn(
+          "absolute transition-all duration-300 opacity-100",
+          componentList.length == 0 && "opacity-0"
+        )}
+      >
+        <div ref={dropdownRef} className="w-96">
+          <Dropdown componentList={componentList} />
         </div>
-      }
+      </div>
     </div>
   );
 }
@@ -112,12 +110,9 @@ function Dropdown({ componentList }: { componentList: Component[] }) {
         return (
           <Link
             key={`component-${comp.name}-${comp.Id}`}
-            onClick={() => {
-              console.log("clicked...");
-            }}
             to={`/components/view/${comp.Id}`}
           >
-            <p>{comp.name}</p>
+            <p className="hover:bg-gray-300 p-2 rounded-md">{comp.name}</p>
           </Link>
         );
       })}
