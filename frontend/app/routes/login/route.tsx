@@ -22,6 +22,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
+import GmailLogin from "./gmail-login";
 
 export const meta: MetaFunction = () => {
   return [{ title: `Login` }];
@@ -162,6 +163,9 @@ export default function LoginPage() {
             Register here
           </Link>{" "}
         </p>
+        <div>
+          <GmailLogin />
+        </div>
       </Card>
     </div>
   );

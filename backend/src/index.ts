@@ -14,14 +14,17 @@ import { ZodError } from "zod";
 import dashboardRoutes from "./routes/dashboard";
 import { initRedis } from "./db/redis-config";
 import componentRouter from "./routes/component";
+import gmailRouter from "./routes/gmail.routes";
+const baseURL = "/api/v1";
 
 app.use(cors({ origin: "*" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(`/auth`, authRouter);
-app.use(`/user`, dashboardRoutes);
-app.use(`/component`, componentRouter);
+app.use(`${baseURL}/auth`, authRouter);
+app.use(`${baseURL}/google`, gmailRouter);
+app.use(`${baseURL}/user`, dashboardRoutes);
+app.use(`${baseURL}/component`, componentRouter);
 
 initRedis();
 

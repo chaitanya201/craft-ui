@@ -5,7 +5,7 @@ interface apiProps {
   headers?: Record<string, string>;
   method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   url: string;
-  data: any;
+  data?: any;
 }
 
 export const authApiCall = async (props: apiProps) => {
