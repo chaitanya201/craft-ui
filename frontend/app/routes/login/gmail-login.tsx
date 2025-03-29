@@ -11,7 +11,7 @@ function GmailLogin() {
         method: "GET",
         data: {},
       });
-      window.location.href = res.data?.data?.responseData;
+      window.location.href = res?.data?.data?.responseData;
     } catch (error) {
       console.log("error", error);
       toast.error("Error while fetching the URL");

@@ -4,9 +4,10 @@
   "description": "api for component ui",
   "main": "src/server.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/index.ts",
-    "build": "npx tsc"
+    "dev": "bun --watch ./src/index.ts",
+    "start": "bun run dist/index.js",
+    "build": "tsc",
+    "test": "bun test"
   },
   "volta": {
     "node": "22.5.1"
