@@ -23,11 +23,31 @@ User.init(
     },
     password: {
       type: DataTypes.STRING({ length: 128 }),
+      allowNull: true,
+      defaultValue: null,
+    },
+    source: {
+      type: DataTypes.ENUM("local", "google", "github"),
       allowNull: false,
+    },
+    isVerified: {
+      type: DataTypes.BOOLEAN(),
+      allowNull: false,
+      defaultValue: false,
+    },
+    verificationToken: {
+      type: DataTypes.STRING(),
+      allowNull: true,
+      defaultValue: null,
+    },
+    redirectionToken: {
+      type: DataTypes.STRING(),
+      allowNull: true,
+      defaultValue: null,
     },
     sessionId: {
       type: DataTypes.STRING(),
-      unique: true,
+      allowNull: true,
     },
     isActive: {
       type: DataTypes.INTEGER,

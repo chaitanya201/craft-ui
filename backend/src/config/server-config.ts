@@ -7,7 +7,10 @@ export const CURRENT_ENV = process.env.NODE_ENV;
 export const CONFIG = {
   CURRENT_ENV,
   SERVER_PORT: process.env.SERVER_PORT,
-  JWT_SECRETE: process.env.JWT_SECRETE || "",
+  JWT_ACCESS_SECRETE: process.env.JWT_ACCESS_SECRETE || "",
+  JWT_REFRESH_SECRETE: process.env.JWT_REFRESH_SECRETE || "",
+  JWT_REDIRECTION_SECRETE: process.env.JWT_REFRESH_SECRETE || "",
+  CLIENT_URL: process.env.CLIENT_URL || "",
 };
 
 export interface apiResponse {

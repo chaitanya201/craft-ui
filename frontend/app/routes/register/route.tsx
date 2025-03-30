@@ -21,6 +21,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { authApiCall } from "@/services/auth";
 import { apiBook } from "@/lib/urls";
+import { toast } from "sonner";
 
 export const meta: MetaFunction = () => {
   return [{ title: `Register` }];
@@ -66,7 +67,7 @@ export default function RegistrationPage() {
         data: data,
       });
       const userData = {
-        token: res.data.data.responseData.token,
+        token: res.data.data.responseData.accessToken,
         Id: res.data.data.responseData.user.Id,
         email: res.data.data.responseData.user.email,
         name: res.data.data.responseData.user.name,

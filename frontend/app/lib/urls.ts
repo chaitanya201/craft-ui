@@ -26,4 +26,6 @@ const urls = {
   },
 };
 
+export const SERVER_URL = baseURLs[currentEnvironment];
+
 export const apiBook = urls[currentEnvironment];

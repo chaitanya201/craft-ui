@@ -1,14 +1,13 @@
-import { createClient, RedisClientType } from "redis";
+import Redis from "ioredis";
 
-let redisClient: RedisClientType;
+let redisClient: Redis;
 
 export const initRedis = async () => {
-  redisClient = createClient();
-  await redisClient.connect();
-  console.log("redis connected");
+  redisClient = new Redis();
+  console.log("Redis connected");
 };
 
-export const getRedisClient = () => {
+export const getRedisClient = (): Redis => {
   if (!redisClient) {
     throw new Error("Redis client is not initialized.");
   }
@@ -19,5 +18,5 @@ export const disconnectRedis = async () => {
   if (!redisClient) {
     throw new Error("Redis client is not initialized.");
   }
-  await redisClient.disconnect();
+  await redisClient.quit();
 };

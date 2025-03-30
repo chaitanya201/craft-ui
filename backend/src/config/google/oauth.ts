@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync } from "fs";
 import { google } from "googleapis";
 import { OAuth2Client } from "google-auth-library";
+import axios from "axios";
 
 const credentialPath = `${process.cwd()}/src/config/google/oauth-credentials.json`;
 const tokenPath = `${process.cwd()}/src/config/google/tokens.json`;
@@ -47,8 +48,22 @@ export const verifyClientCode = async (oauth: OAuth2Client, code: string) => {
     oauth.setCredentials(tokens.tokens);
     writeFileSync(tokenPath, JSON.stringify(tokens.tokens));
     console.log("Token stored to:", tokenPath);
+    console.log("response from google", tokens);
+    return tokens.tokens;
   } catch (error) {
     console.log("error while verifying client code", error);
     throw error;
   }
+};
+
+export const getGoogleUser = async ({
+  accessToken,
+}: {
+  accessToken: string | null | undefined;
+}) => {
+  const googleUser = await axios.get(
+    `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${accessToken}`
+  );
+  console.log(Object.keys(googleUser.data), "google user data");
+  return googleUser.data;
 };

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { catchAsync } from "../utils/catchAsync";
 import { APIError } from "../utils/apiError";
-import { verifyJWTToken } from "../utils/helpers/auth";
+import { verifyAccessToken } from "../utils/helpers/auth";
 import { getRedisClient } from "../db/redis-config";
 
 const authMiddleware = catchAsync(
@@ -11,7 +11,7 @@ const authMiddleware = catchAsync(
       throw new APIError("Unauthorized user", 401);
     }
 
-    const data: any = verifyJWTToken({ token });
+    const data: any = verifyAccessToken({ token });
     const redisClient = getRedisClient();
 
     let sessionId;
